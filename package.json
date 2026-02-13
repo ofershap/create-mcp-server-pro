@@ -1,0 +1,99 @@
+{
+  "name": "create-mcp-server-pro",
+  "version": "0.0.0-development",
+  "description": "Scaffold production-ready MCP servers in one command. Uses the latest SDK v2 API, Vitest tests, GitHub Actions CI, and agent-friendly README templates.",
+  "type": "module",
+  "bin": {
+    "create-mcp-server-pro": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]"
+        }
+      ]
+    ]
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "create",
+    "scaffold",
+    "generator",
+    "cli",
+    "typescript",
+    "production-ready",
+    "ai",
+    "agent",
+    "cursor",
+    "claude",
+    "copilot"
+  ],
+  "author": "Ofer Shapira",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ofershap/create-mcp-server-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ofershap/create-mcp-server-pro/issues"
+  },
+  "homepage": "https://github.com/ofershap/create-mcp-server-pro#readme",
+  "dependencies": {
+    "@inquirer/prompts": "^7.5.0",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@eslint/js": "^9.21.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@vitest/coverage-v8": "^3.2.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
+    "semantic-release": "^24.2.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.25.0",
+    "vitest": "^3.2.0"
+  }
+}

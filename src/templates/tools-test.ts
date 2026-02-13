@@ -1,0 +1,63 @@
+import type { ProjectOptions } from "../prompts.js";
+
+export function toolsTestTemplate(opts: ProjectOptions): string {
+  const lines: string[] = [];
+
+  lines.push(`import { describe, it, expect, vi, beforeEach } from "vitest";`);
+  lines.push(`import { greet, fetchData } from "../src/tools.js";`);
+  lines.push(``);
+  lines.push(`describe("greet", () => {`);
+  lines.push(`  it("returns a greeting with the given name", () => {`);
+  lines.push(`    const result = greet("World");`);
+  lines.push(`    expect(result).toBe("Hello, World! Welcome to ${opts.name}.");`);
+  lines.push(`  });`);
+  lines.push(``);
+  lines.push(`  it("handles empty string", () => {`);
+  lines.push(`    const result = greet("");`);
+  lines.push(`    expect(result).toBe("Hello, ! Welcome to ${opts.name}.");`);
+  lines.push(`  });`);
+  lines.push(`});`);
+  lines.push(``);
+  lines.push(`describe("fetchData", () => {`);
+  lines.push(`  beforeEach(() => {`);
+  lines.push(`    vi.restoreAllMocks();`);
+  lines.push(`  });`);
+  lines.push(``);
+  lines.push(`  it("returns JSON data as formatted string", async () => {`);
+  lines.push(`    vi.spyOn(globalThis, "fetch").mockResolvedValue(`);
+  lines.push(`      new Response(JSON.stringify({ key: "value" }), {`);
+  lines.push(`        status: 200,`);
+  lines.push(`        headers: { "content-type": "application/json" },`);
+  lines.push(`      }),`);
+  lines.push(`    );`);
+  lines.push(``);
+  lines.push(`    const result = await fetchData("https://api.example.com/data");`);
+  lines.push(`    expect(JSON.parse(result)).toEqual({ key: "value" });`);
+  lines.push(`  });`);
+  lines.push(``);
+  lines.push(`  it("returns text data for non-JSON responses", async () => {`);
+  lines.push(`    vi.spyOn(globalThis, "fetch").mockResolvedValue(`);
+  lines.push(`      new Response("Hello, plain text!", {`);
+  lines.push(`        status: 200,`);
+  lines.push(`        headers: { "content-type": "text/plain" },`);
+  lines.push(`      }),`);
+  lines.push(`    );`);
+  lines.push(``);
+  lines.push(`    const result = await fetchData("https://example.com");`);
+  lines.push(`    expect(result).toBe("Hello, plain text!");`);
+  lines.push(`  });`);
+  lines.push(``);
+  lines.push(`  it("throws on HTTP error", async () => {`);
+  lines.push(`    vi.spyOn(globalThis, "fetch").mockResolvedValue(`);
+  lines.push(`      new Response("Not Found", { status: 404, statusText: "Not Found" }),`);
+  lines.push(`    );`);
+  lines.push(``);
+  lines.push(`    await expect(fetchData("https://example.com/missing")).rejects.toThrow(`);
+  lines.push(`      "HTTP 404: Not Found",`);
+  lines.push(`    );`);
+  lines.push(`  });`);
+  lines.push(`});`);
+  lines.push(``);
+
+  return lines.join("\n");
+}
