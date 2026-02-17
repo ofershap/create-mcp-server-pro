@@ -16,17 +16,17 @@ npx create-mcp-server-pro my-server
 
 ## Why This One?
 
-| Feature | Official (archived) | FastMCP template | **create-mcp-server-pro** |
-|---------|:-------------------:|:----------------:|:-------------------------:|
-| Maintained | Archived Nov 2024 | Yes | **Yes** |
-| Official MCP SDK | Yes | No (FastMCP) | **Yes** |
-| Vitest tests | No | No | **Yes** |
-| GitHub Actions CI | No | No | **Yes** |
-| Error handling patterns | No | No | **Yes** |
-| Agent-friendly README | No | No | **Yes** |
-| Auth boilerplate | No | No | **Yes** |
-| semantic-release | No | No | **Yes** |
-| ESLint 9 + Prettier | No | No | **Yes** |
+| Feature                 | Official (archived) | FastMCP template | **create-mcp-server-pro** |
+| ----------------------- | :-----------------: | :--------------: | :-----------------------: |
+| Maintained              |  Archived Nov 2024  |       Yes        |          **Yes**          |
+| Official MCP SDK        |         Yes         |   No (FastMCP)   |          **Yes**          |
+| Vitest tests            |         No          |        No        |          **Yes**          |
+| GitHub Actions CI       |         No          |        No        |          **Yes**          |
+| Error handling patterns |         No          |        No        |          **Yes**          |
+| Agent-friendly README   |         No          |        No        |          **Yes**          |
+| Auth boilerplate        |         No          |        No        |          **Yes**          |
+| semantic-release        |         No          |        No        |          **Yes**          |
+| ESLint 9 + Prettier     |         No          |        No        |          **Yes**          |
 
 ## Quick Start
 
@@ -37,6 +37,7 @@ npx create-mcp-server-pro my-server
 ```
 
 You'll be asked for:
+
 - **Server name** — npm package name (defaults to `mcp-server-<directory>`)
 - **Description** — what your server does
 - **Authentication** — whether it needs an API token
@@ -110,14 +111,21 @@ Every MCP tool has three parts:
 import { z } from "zod";
 
 server.tool(
-  "tool_name",                                    // 1. Name (snake_case)
-  "What this tool does — be specific for the AI",  // 2. Description
-  {                                                // 3. Input schema (Zod)
+  "tool_name", // 1. Name (snake_case)
+  "What this tool does — be specific for the AI", // 2. Description
+  {
+    // 3. Input schema (Zod)
     query: z.string().describe("Search query"),
-    limit: z.number().int().min(1).max(100).default(10)
+    limit: z
+      .number()
+      .int()
+      .min(1)
+      .max(100)
+      .default(10)
       .describe("Max results to return"),
   },
-  async ({ query, limit }) => {                    // 4. Handler
+  async ({ query, limit }) => {
+    // 4. Handler
     try {
       const results = await searchAPI(query, limit);
       return {
@@ -139,25 +147,30 @@ server.tool(
 These patterns come from building [4 production MCP servers](#real-world-examples):
 
 **Naming**
+
 - Use `snake_case` for tool names (e.g. `search_packages`, `get_user`)
 - Avoid spaces, dots, or mixed case — they cause tokenization issues in LLMs
 
 **Descriptions**
+
 - Write descriptions for the AI, not for humans
 - Be specific: "Search npm packages by keyword and return name, version, and description" is better than "Search packages"
 - Every Zod field should have `.describe()` — this is how the AI knows what to pass
 
 **Error Handling**
+
 - Wrap external calls in try/catch
 - Return `{ content: [...], isError: true }` for recoverable errors
 - Include actionable context: "API_TOKEN not set. Set it in your MCP client env." not "Auth failed"
 
 **Testing**
+
 - Test tool logic separately from MCP registration
 - Mock `fetch` with `vi.spyOn(globalThis, "fetch")`
 - Test both success and error paths
 
 **Project Structure**
+
 - Keep tool logic in `src/tools.ts` (or `src/tools/` for many tools)
 - Keep MCP registration in `src/index.ts`
 - This separation makes tools testable without MCP transport
@@ -167,6 +180,7 @@ These patterns come from building [4 production MCP servers](#real-world-example
 After building your server (`npm run build`), connect it:
 
 **Claude Desktop** — `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
 ```json
 {
   "mcpServers": {
@@ -179,6 +193,7 @@ After building your server (`npm run build`), connect it:
 ```
 
 **Cursor** — `.cursor/mcp.json` in your project:
+
 ```json
 {
   "mcpServers": {
@@ -191,6 +206,7 @@ After building your server (`npm run build`), connect it:
 ```
 
 **VS Code (GitHub Copilot)** — `.vscode/mcp.json`:
+
 ```json
 {
   "servers": {
@@ -207,12 +223,19 @@ After building your server (`npm run build`), connect it:
 
 These MCP servers were built with the same patterns this scaffolder generates:
 
-| Server | Tools | What it does |
-|--------|:-----:|-------------|
-| [mcp-server-devutils](https://github.com/ofershap/mcp-server-devutils) | 17 | Base64, UUID, hash, JWT decode, cron, timestamps, JSON, regex |
-| [mcp-server-npm](https://github.com/ofershap/mcp-server-npm) | 6 | Search packages, view details, compare, check downloads |
-| [mcp-server-github-gist](https://github.com/ofershap/mcp-server-github-gist) | 8 | Create, read, update, list, and search GitHub Gists |
-| [mcp-server-cloudflare](https://github.com/ofershap/mcp-server-cloudflare) | 13 | Workers, KV, R2, DNS, and cache management |
+| Server                                                                       | Tools | What it does                                                  |
+| ---------------------------------------------------------------------------- | :---: | ------------------------------------------------------------- |
+| [mcp-server-devutils](https://github.com/ofershap/mcp-server-devutils)       |  17   | Base64, UUID, hash, JWT decode, cron, timestamps, JSON, regex |
+| [mcp-server-npm](https://github.com/ofershap/mcp-server-npm)                 |   6   | Search packages, view details, compare, check downloads       |
+| [mcp-server-github-gist](https://github.com/ofershap/mcp-server-github-gist) |   8   | Create, read, update, list, and search GitHub Gists           |
+| [mcp-server-cloudflare](https://github.com/ofershap/mcp-server-cloudflare)   |  13   | Workers, KV, R2, DNS, and cache management                    |
+
+## Author
+
+**Ofer Shapira**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/ofershap)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat&logo=github&logoColor=white)](https://github.com/ofershap)
 
 ## License
 
