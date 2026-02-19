@@ -1,4 +1,4 @@
-# create-mcp-server-pro
+# Create MCP Server Pro — Scaffold Production-Ready MCP Servers
 
 [![npm version](https://img.shields.io/npm/v/create-mcp-server-pro.svg)](https://www.npmjs.com/package/create-mcp-server-pro)
 [![npm downloads](https://img.shields.io/npm/dm/create-mcp-server-pro.svg)](https://www.npmjs.com/package/create-mcp-server-pro)
@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Scaffold a production-ready MCP server in one command. Tests, CI, error handling, and best practices included.
+Scaffold a production-ready MCP server in one command. TypeScript, Vitest tests, GitHub Actions CI, error handling patterns, and best practices — all included.
 
 ```bash
 npx create-mcp-server-pro my-server
