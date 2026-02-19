@@ -1,6 +1,6 @@
 {
   "name": "create-mcp-server-pro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffold production-ready MCP servers in one command. Uses the latest SDK v2 API, Vitest tests, GitHub Actions CI, and agent-friendly README templates.",
   "type": "module",
   "bin": {
