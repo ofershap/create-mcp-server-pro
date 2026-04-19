@@ -30,6 +30,8 @@ npx create-mcp-server-pro my-server
 
 ## Quick Start
 
+![Demo](assets/demo.gif)
+
 ### Interactive
 
 ```bash
